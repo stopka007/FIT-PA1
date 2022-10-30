@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main(){
+    int interval1 = 0;
+    int interval2 = 0;
+    int delitel = 0;
+    char input;
+    char otaznik = '?';
+    char hashtag = '#';
+
+    printf("Intervaly:\n");
+
+    while( 1 ){
+        int scanint = scanf("%c %d %d",&input, &interval1, &interval2);
+        printf("scanint = %d\n", scanint);
+        printf("input = %c\n", input);
+        //printf("hashtag = %c\n", hashtag);
+        //printf("otaznik = %c\n", otaznik);
+        printf("interval1 = %c\n", interval1);
+        printf("interval2 = %c\n", interval2);
+        if (scanint != 3 || (input != otaznik && input != hashtag) || interval1 > interval2 || interval1 < 1){
+            printf("Nespravny vstup.\n");
+            break;
+        }
+        else {
+            for (int i = interval1; i == interval2; i++){
+                printf("%d\n", i);
+                for (int n = 1; n == i; n++ ){
+                    if (i % n == 0) {
+                        delitel += n;
+                        printf("%d\n", delitel);
+                    }
+
+                }
+            }
+
+        }
+    }
+
+return 0;
+}
