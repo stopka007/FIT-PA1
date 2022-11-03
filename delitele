@@ -1,41 +1,52 @@
 #include <stdio.h>
 
 int main(){
-    int interval1 = 0;
-    int interval2 = 0;
     int delitel = 0;
-    char input;
     char otaznik = '?';
     char hashtag = '#';
 
     printf("Intervaly:\n");
 
     while( 1 ){
-        int scanint = scanf("%c %d %d",&input, &interval1, &interval2);
-        printf("scanint = %d\n", scanint);
-        printf("input = %c\n", input);
-        //printf("hashtag = %c\n", hashtag);
-        //printf("otaznik = %c\n", otaznik);
-        printf("interval1 = %c\n", interval1);
-        printf("interval2 = %c\n", interval2);
-        if (scanint != 3 || (input != otaznik && input != hashtag) || interval1 > interval2 || interval1 < 1){
+        char input;
+        int interval1;
+        int interval2;
+        int prvocisla[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199};
+        int delka = sizeof prvocisla / sizeof prvocisla[0];
+        //int scanint = scanf("%c%d%d\n", &input, &interval1, &interval2);
+        //printf("scanint = %d\n", scanint);
+        //printf("input = %c\n", input);
+        //printf("interval1 = %d\n", interval1);
+        //printf("interval2 = %d\n", interval2);
+        if (scanf("%c%d%d\n", &input, &interval1, &interval2) != 3 || (input != otaznik && input != hashtag) || interval1 > interval2 || interval1 < 1){
             printf("Nespravny vstup.\n");
             break;
         }
         else {
-            for (int i = interval1; i == interval2; i++){
-                printf("%d\n", i);
-                for (int n = 1; n == i; n++ ){
+            for (int i = interval1; i < interval2 + 1; i++){
+                //printf("i= %d\n", i);
+                for (int n = 1; n < i; n++ ){
                     if (i % n == 0) {
+                        //printf("n= %d\n", n);
                         delitel += n;
-                        printf("%d\n", delitel);
                     }
-
                 }
+                //printf("delitel = %d\n", delitel);
+                for (int x = 0; x < delka; x++){
+                    //printf("delitel %d\n", delitel);
+                    if (prvocisla[x] == delitel) {
+                        printf("%d\n", i);
+                    }
+                    else {
+                        continue;
+                    }
+                }
+            delitel = 0;
             }
 
         }
     }
 
 return 0;
+
 }
