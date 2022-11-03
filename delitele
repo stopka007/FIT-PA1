@@ -18,7 +18,7 @@ int main(){
         //printf("input = %c\n", input);
         //printf("interval1 = %d\n", interval1);
         //printf("interval2 = %d\n", interval2);
-        if (scanf("%c%d%d\n", &input, &interval1, &interval2) != 3 || (input != otaznik && input != hashtag) || interval1 > interval2 || interval1 < 1){
+        if (scanf(" %c%d%d", &input, &interval1, &interval2) != 3 || (input != otaznik && input != hashtag) || interval1 > interval2 || interval1 < 1){
             printf("Nespravny vstup.\n");
             break;
         }
