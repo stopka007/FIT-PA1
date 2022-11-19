@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int cislo, input, suma = 0, dvojice = 0, n = 0, index = 0, max = 16;
+
+    int* vsechna_cisla = (int*) malloc(max * sizeof(int));
+    int* pole_sum = (int*) malloc(max * sizeof(int));
+
+    printf("Posloupnost:\n");
+
+    while( n < 2000){                                           // vezme vstupy a vytvori z nich pole "vsechna_cisla" a zaroven "n" pote slouzi jako velikost pole   
+        if ((input = scanf("%d", &cislo)) == EOF ){                  
+            break;
+        }
+        else if (input != 1){
+            printf("Nespravny vstup.\n");
+            break;
+        }
+        else {
+            vsechna_cisla[n] = cislo;
+            n += 1;
+            if(n >= max){
+                max *= 2;
+                vsechna_cisla = (int*) realloc(pole_sum, max * sizeof(int));
+            }
+        }
+    }
+    for (int i = 0; i == n - 2 ; i++){                          // vytvari prvotni pozice budoucich intervalu
+        suma = vsechna_cisla[i];                                // uklada do sumy prvni cislo intervalu
+        for (int l = 1 + i; l == n - 1  ; l++){                 // postupne k prvotni pozici pridava konecnou pozici jak velkej bude interval
+            suma += vsechna_cisla[l];                           // pricita k sume dalsi cislo z intervalu
+            pole_sum[index] = suma;                             // uklada sumu intervalu do pole sum  
+            for (int k = 0; k < index; k++) {                   // projizdi jednotlivy predesly slozky v poli sum a kontroluje jestli nejsou stejny jako nova suma co se uklada a pokud ano tak k promeny "dvojice" pricte +1
+                if (pole_sum[k] == suma){
+                    dvojice += 1;
+                }
+                else {
+                    continue; 
+                }
+            }
+            index += 1;
+            if(index >= max){
+                max *= 2;
+                pole_sum = (int*) realloc(pole_sum, max * sizeof(int));
+            }
+        suma = 0;
+        }
+    }
+    printf("Pocet dvojic: %d\n", dvojice);
+    free(pole_sum);
+    return 0;
+}
