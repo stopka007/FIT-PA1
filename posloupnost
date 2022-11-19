@@ -28,7 +28,7 @@ int main(){
     }
     for (int i = 0; i < n - 1 ; i++){                           // vytvari prvotni pozice budoucich intervalu, zadame treba 1 5 2 4 -> zacne to na 0. indexu (tim vytvori prvni interval 0-...) a vezme cislo 1
         suma = vsechna_cisla[i];                                // tady se ulozi to cislo 1 do sumy
-        for (int l = 1 + i; l < n; l++){                        // vezme o pozici dal takze 1 -> takze se vytvori interval 0-1, pak se vezme o cislo dal a udela se interval 0-2 
+        for (int l = 1 + i; l < n; l++){                        // vezme o pozici dal takze 1 -> takze se vytvori interval 0-1, pak se vezme o cislo dal a udela se interval 0-2 atd. atd.
             suma += vsechna_cisla[l];                           // vezme se cislo na pozici 1 v poli coz je 5 a pricte to do sumy -> mame sumu prvniho intervalu, pak jen prictem to novy cislo z 2. pozice (cislo 2) do sumy at nemusime pocitat vsechny 3 cisla znova
             pole_sum[index] = suma;                             // uklada sumu=6 do pole sum , v druhy iteraci s pozici 2 uz to pak jen pricte 2 a mame sumu 8 pro cisla 1 5 2
             for (int k = 0; k < index; k++) {                   // projizdi jednotlivy predesly slozky v poli sum a kontroluje jestli nejsou stejny jako nova suma co se uklada a pokud ano tak k promeny "dvojice" pricte +1
