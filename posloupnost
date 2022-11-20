@@ -10,10 +10,10 @@ int main(){
     printf("Posloupnost:\n");
 
     while( n < 2000){                                           
-        if ((input = scanf("%d", &cislo)) == EOF || n >= 2000 ){                  
+        if ((input = scanf("%d", &cislo)) == EOF){                  
             break;
         }
-        else if (input != 1){
+        else if (input != 1 || n >= 2000 ){
             printf("Nespravny vstup.\n");
             break;
         }
@@ -27,21 +27,23 @@ int main(){
     }
     for (int i = 0; i < n-1; i++){
         suma = vsechna_cisla[i];
-        for (int l = 1+i; l < n; l++){ //vytvoreni pole sum
+        for (int l = 1+i; l < n; l++){
             suma += vsechna_cisla[l];
             pole_sum[index] = suma;
-            for (int k = index; k > 0; k--){ // sort
-                if(pole_sum[k] < pole_sum[k-1]){
-                    sort = pole_sum[k];
-                    pole_sum[k] = pole_sum[k-1];
-                    pole_sum[k-1] = sort;
-                }
-            }
             index += 1;
         }
         suma = 0;
     }
-    for (int i = 0; i < index-1 ; i++){ // tvoreni dvojic
+     for (int i = 0; i < index; i++){ 
+        for(int n = i+1; n < index; n++){
+            if(pole_sum[i] > pole_sum[n]){
+                sort = pole_sum[i];
+                pole_sum[i] = pole_sum[n];
+                pole_sum[n] = sort;
+            }
+        }
+    }
+    for (int i = 0; i < index-1 ; i++){ 
         for (int l = 1+i; l < index; l++){
            if (pole_sum[i] == pole_sum[l]){
             dvojice += 1;
@@ -51,7 +53,7 @@ int main(){
            }                 
         }
     }
-    if (n > 0){
+    if (n > 0 && input != 0){
         printf("Pocet dvojic: %d\n", dvojice);
     }
     return 0;
