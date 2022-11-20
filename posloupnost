@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int compare(const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
 int main(){
-    int cislo, input, suma = 0, dvojice = 0, n = 0, index = 0, sort;
+    int cislo, input, suma = 0, dvojice = 0, n = 0, index = 0;
 
     int vsechna_cisla[2000];
     int pole_sum[2000000];
@@ -33,16 +37,9 @@ int main(){
             index += 1;
         }
         suma = 0;
-    }
-     for (int i = 0; i < index; i++){ 
-        for(int n = i+1; n < index; n++){
-            if(pole_sum[i] > pole_sum[n]){
-                sort = pole_sum[i];
-                pole_sum[i] = pole_sum[n];
-                pole_sum[n] = sort;
-            }
-        }
-    }
+    } 
+    qsort(pole_sum, index, sizeof(int), compare);
+
     for (int i = 0; i < index-1 ; i++){ 
         for (int l = 1+i; l < index; l++){
            if (pole_sum[i] == pole_sum[l]){
