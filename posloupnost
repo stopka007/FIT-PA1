@@ -2,14 +2,14 @@
 #include <stdlib.h>
 
 int main(){
-    int cislo, input, suma = 0, dvojice = 0, n = 0, index = 0, max = 16;
+    int cislo, input, suma = 0, dvojice = 0, n = 0, index = 0, max = 16, sort;
 
     int* vsechna_cisla = (int*) malloc(max * sizeof(int));
     int* pole_sum = (int*) malloc(max * sizeof(int));
 
     printf("Posloupnost:\n");
 
-    while( n < 2000){                                           // vezme vstupy a vytvori z nich pole "vsechna_cisla" a zaroven "n" pote slouzi jako velikost pole   
+    while( n < 2000){                                           
         if ((input = scanf("%d", &cislo)) == EOF ){                  
             break;
         }
@@ -26,28 +26,42 @@ int main(){
             }
         }
     }
-    for (int i = 0; i < n - 1 ; i++){                           // vytvari prvotni pozice budoucich intervalu, zadame treba 1 5 2 4 -> zacne to na 0. indexu (tim vytvori prvni interval 0-...) a vezme cislo 1
-        suma = vsechna_cisla[i];                                // tady se ulozi to cislo 1 do sumy
-        for (int l = 1 + i; l < n; l++){                        // vezme o pozici dal takze 1 -> takze se vytvori interval 0-1, pak se vezme o cislo dal a udela se interval 0-2 atd. atd.
-            suma += vsechna_cisla[l];                           // vezme se cislo na pozici 1 v poli coz je 5 a pricte to do sumy -> mame sumu prvniho intervalu, pak jen prictem to novy cislo z 2. pozice (cislo 2) do sumy at nemusime pocitat vsechny 3 cisla znova
-            pole_sum[index] = suma;                             // uklada sumu=6 do pole sum , v druhy iteraci s pozici 2 uz to pak jen pricte 2 a mame sumu 8 pro cisla 1 5 2
-            for (int k = 0; k < index; k++) {                   // projizdi jednotlivy predesly slozky v poli sum a kontroluje jestli nejsou stejny jako nova suma co se uklada a pokud ano tak k promeny "dvojice" pricte +1
-                if (pole_sum[k] == suma){
-                    dvojice += 1;
-                }
-                else {
-                    continue; 
-                }
-            }
-            index += 1;                                         // tady pricitam aby se to cislo do pole sum vzdycky pridavalo na dalsi pozico
+    for (int i = 0; i < n-1; i++){
+        suma = vsechna_cisla[i];
+        for (int l = 1+i; l < n; l++){
+            suma += vsechna_cisla[l];
+            pole_sum[index] = suma;
+            index += 1;
             if(index >= max){
                 max *= 2;
                 pole_sum = (int*) realloc(pole_sum, max * sizeof(int));
+            }                                              
+        }
+        suma = 0;
+    }
+    for (int i = 0; i < index; i++){
+        for(int n = i+1; n < index; n++){
+            if(pole_sum[i] > pole_sum[n]){
+                sort = pole_sum[i];
+                pole_sum[i] = pole_sum[n];
+                pole_sum[n] = sort;
             }
-        suma = 0;                                               // vynuluju sumu abych mohl zacinat zase interval 1-.... od nuly
         }
     }
-    printf("Pocet dvojic: %d\n", dvojice);
+    for (int i = 0; i < index-1 ; i++){
+        for (int l = 1+i; l < index; l++){
+           if (pole_sum[i] == pole_sum[l]){
+            dvojice += 1;
+           }
+           else{
+            continue;
+           }                 
+        }
+    }
+    if (input == -1){
+        printf("Pocet dvojic: %d\n", dvojice);
+    }
     free(pole_sum);
+    free(vsechna_cisla);
     return 0;
 }
