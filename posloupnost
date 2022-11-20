@@ -22,7 +22,7 @@ int main(){
             n += 1;
         }
     }
-    if (n == 0 && input != 0){
+    if (n <= 1 && input != 0){
         printf("Nespravny vstup.\n");
     }
     for (int i = 0; i < n-1; i++){ //vytvoreni pole sum
