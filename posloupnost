@@ -13,7 +13,7 @@ int main(){
         if ((input = scanf("%d", &cislo)) == EOF ){                  
             break;
         }
-        else if (input != 1 || n > 2000){
+        else if (input != 1 || n > 2000 ){
             printf("Nespravny vstup.\n");
             break;
         }
@@ -22,9 +22,8 @@ int main(){
             n += 1;
         }
     }
-    if (n <= 1){
-            printf("Nespravny vstup.\n");
-            break;
+    if (n == 0 && input != 0){
+        printf("Nespravny vstup.\n");
     }
     for (int i = 0; i < n-1; i++){ //vytvoreni pole sum
         suma = vsechna_cisla[i];
@@ -50,11 +49,11 @@ int main(){
             dvojice += 1;
            }
            else{
-            continue;
+            break;
            }                 
         }
     }
-    if (input == -1){
+    if (n > 0){
         printf("Pocet dvojic: %d\n", dvojice);
     }
     return 0;
