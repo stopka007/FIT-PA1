@@ -27,10 +27,10 @@ int main(){
     }
     for (int i = 0; i < n-1; i++){
         suma = vsechna_cisla[i];
-        for (int l = 1+i; l < n; l++){
+        for (int l = 1+i; l < n; l++){ //vytvoreni pole sum
             suma += vsechna_cisla[l];
             pole_sum[index] = suma;
-            for (int k = index; k > 0; k--){
+            for (int k = index; k > 0; k--){ // sort
                 if(pole_sum[k] < pole_sum[k-1]){
                     sort = pole_sum[k];
                     pole_sum[k] = pole_sum[k-1];
@@ -41,10 +41,7 @@ int main(){
         }
         suma = 0;
     }
-    for(int loop = 0; loop < index; loop++){
-      printf("%d ", pole_sum[loop]);
-    }
-    for (int i = 0; i < index-1 ; i++){ 
+    for (int i = 0; i < index-1 ; i++){ // tvoreni dvojic
         for (int l = 1+i; l < index; l++){
            if (pole_sum[i] == pole_sum[l]){
             dvojice += 1;
