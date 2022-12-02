@@ -4,84 +4,108 @@
 #include <ctype.h>
 
 int main (void) {
-    char string[10000];
-    char seznam[100][10000];
-    char podminka1[1][10] = {"#0\n"};
-    char slovo[10000];
+    char cely_seznam[100][10000];
+    char jednotlivy_string[10000];
+    char nakupni_list[100][10000];
+    char regaly [100][10000];
     int n = 0;
     int i = 0;
-    char hashtag = '#';
-    int regal_podminka = '0';
-    int podminka_white_space = 0;
-    char regaly [100][10000];
-    char nakupni_list[100][10000];
-    while (fgets(string, sizeof string, stdin) != NULL) {
-        strcpy(slovo, string);
-        while (slovo[i] != EOF){
-            slovo[i] = tolower(slovo[i]);
-            i++;
+    int pocet_v_regalech = 0;
+    int cislo_regalu = 0;
+    int pocet_slozek_nakupu = 0;
+    int index_pro_nakupni_list = 0;
+    int podminka_pro_regal = '0';
+    int pocet_regalu = 0;
+    int podminka_pro_new_line = 0;
+    int cislo_iterace = 0;
+    char *line = NULL;
+    size_t len;
+    
+    while (getline(&line, &len, stdin) != EOF) {
+        if (*line != '\n'){
+            line[strcspn(line, "\n")] = 0;
         }
-        strcpy(seznam[n], slovo);
-        if (*slovo == '\n') {
-            podminka_white_space += 1;
-        } 
-        if (strcmp(seznam[0],*podminka1) != 0) { // pokud prvni radek neni #0
+        else {
+            podminka_pro_new_line += 1;
+        }
+        strcpy(jednotlivy_string, line);
+        strcpy(cely_seznam[n], jednotlivy_string);
+        if (strcmp(cely_seznam[0], "#0") != 0) { // pokud prvni radek neni #0
             printf("Nespravny vstup.\n");
             return 0;
         }
-        while (slovo[i] != '\n'){ // zkouska aby regaly byly vzestupne
-            if (slovo[i] == hashtag && slovo[i+1] == regal_podminka){ 
-                regal_podminka += 1;
+        while (jednotlivy_string[i] != '\0'){ // zkouska aby regaly byly vzestupne
+            if (jednotlivy_string[i] == '#' && jednotlivy_string[i+1] == podminka_pro_regal){ 
+                podminka_pro_regal += 1;
+                pocet_regalu += 1;
             }
-            else if (slovo[i] == hashtag && slovo[i+1] != regal_podminka){ 
+            else if (jednotlivy_string[i] == '#' && jednotlivy_string[i+1] != podminka_pro_regal){ 
                 printf("Nespravny vstup.\n");
                 return 0;
             }
+            else if (jednotlivy_string[i] == '\n') {
+                podminka_pro_new_line += 1;
+            } 
             i += 1;
         }
         n+=1;
         i=0;
     }
-    if (podminka_white_space == 0) {
+    if (podminka_pro_new_line == 0) {
         printf("Nespravny vstup.\n");
         return 0;
     }
     for (int i=0; i<n; i++){
-        if (*seznam[i] != '\n'){
-            strcpy(regaly[i], seznam[i]);
-            printf("regaly = %s", regaly[i]);
+        if (*cely_seznam[i] != '\n'){
+            strcpy(regaly[i], cely_seznam[i]);
+            //printf("regaly = %s\n", regaly[i] );
+            pocet_v_regalech += 1;
         }
         else {
             break;
         }
     }
     for (int i=0; i<n; i++){
-        if (*seznam[i] != '\n'){
+        if (*cely_seznam[i] != '\n'){
             continue;;
         }
         else {
             for (int k = i+1; k<n; k++){
-                if (*seznam[k] != '\n'){
-                    strcpy(nakupni_list[k], seznam[k]);
-                    printf("list = %s",nakupni_list[k]);
+                if (*cely_seznam[k] != '\n'){
+                    strcpy(nakupni_list[index_pro_nakupni_list], cely_seznam[k]);
+                    //printf("list = %s\n",nakupni_list[index_pro_nakupni_list]);
+                    pocet_slozek_nakupu += 1;
+                    index_pro_nakupni_list += 1;
                 }
                 else {
-                    strcpy(nakupni_list[k], seznam[k]);
-                    printf("list = %s",nakupni_list[k]);
+                    strcpy(nakupni_list[k], cely_seznam[k]);
+                    //printf("list = %s",nakupni_list[k]);
+                    pocet_slozek_nakupu += 1;
                     break;
                 }
             }
         }
     }
-    //for (int i = 0; i<n; i++){
-    //    for(int k = 0; k<n; k++){
-    //        if (strcmp(regaly[i], nakupni_list[k]) == 0 && *nakupni_list[i] != '\n'){
-    //            printf("Regaly %s a list %s jsou stejny\n", regaly[i], nakupni_list[k]);
-    //        }
-    //    }
-    //}
-    //for (int i = 0; i < n; i++){
-    //    printf("na pozici %d je %s\n", i, seznam[i]);
-    //}
-    return 0;
-}
+    while (pocet_slozek_nakupu != 0 ) {
+        if (*nakupni_list[i] == '\n'){
+            printf("Optimalizovany seznam:\n");
+        }
+        else {
+            while ( pocet_regalu != 0){
+                for (int n = 1; n < pocet_v_regalech ; n++){
+                    if (strncmp(regaly[n], "#", 1) == 0) {
+                        printf("cislo regalu = %d\n", cislo_regalu);
+                        cislo_regalu += 1;
+                    }
+                    else if (strcasecmp(nakupni_list[i], regaly[n]) == 0 && cislo_regalu == cislo_iterace) {
+                        printf("%s -> #%d %s\n", nakupni_list[i], cislo_regalu, regaly[n]);
+                    }
+                }
+            printf("cislo iterace = %d\n", cislo_iterace);
+            cislo_iterace += 1;
+            pocet_regalu -= 1;
+            }
+        }
+    pocet_slozek_nakupu -= 1;
+    printf("pocet slozek nakupu = %d\n", pocet_slozek_nakupu);
+    }
